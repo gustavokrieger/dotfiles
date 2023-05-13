@@ -38,21 +38,26 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
+     (go :variables
+         go-format-before-save t
+         go-backend 'lsp)
+     yaml
+     dap
+     auto-completion
      ;; better-defaults
      emacs-lisp
      ;; git
      helm
-     ;; lsp
+     lsp
      ;; markdown
      multiple-cursors
      ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-shell 'vterm)
      ;; spell-checking
-     ;; syntax-checking
-     ;; version-control
+     syntax-checking
+     (version-control :variables
+                  version-control-diff-side 'left)
      treemacs)
 
 
@@ -237,8 +242,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -420,7 +425,10 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers '(:relative t
+                               :enabled-for-modes prog-mode
+                                                  text-mode
+                                                  dired-mode)
 
    ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
@@ -568,8 +576,73 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; FACE
+  (defun set-big-font-size ()
+    (setq buffer-face-mode-face '(:height 140))
+    (buffer-face-mode))
+  (add-hook 'prog-mode-hook 'set-big-font-size)
+  (add-hook 'text-mode-hook 'set-big-font-size)
+
+  ;; FOLDS
+  (define-key evil-normal-state-map "zR" 'evil-open-folds)
+  (define-key evil-normal-state-map "zm" 'hs-hide-level)
+  (define-key evil-normal-state-map "zM" 'evil-close-folds)
+
+  ;; DAP
+  (setq dap-ui-variable-length 178)
+  (setq dap-auto-configure-features '(sessions locals expressions tooltip))
+  (dap-ui-controls-mode -1)
+  (add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra)))
+  ;; https://github.com/emacs-lsp/lsp-ui/issues/716
+  (eval-after-load 'lsp-ui-sideline
+    '(progn
+       (defun lsp-ui-sideline--align (&rest lengths)
+         "Align sideline string by LENGTHS from the right of the window."
+         (cons (+ (apply '+ lengths)
+                  (if (display-graphic-p) 1 2))
+               'width))))
+
+  ;; LSP
+  ;; https://github.com/emacs-lsp/lsp-mode/issues/713
+  (defun ++git-ignore-p (path)
+    (let* (; trailing / breaks git check-ignore if path is a symlink:
+           (path (directory-file-name path))
+           (default-directory (file-name-directory path))
+           (relpath (file-name-nondirectory path))
+           (cmd (format "git check-ignore '%s'" relpath))
+           (status (call-process-shell-command cmd)))
+      (eq status 0)))
+  (defun ++lsp--path-is-watchable-directory-a
+      (fn path dir ignored-directories)
+    (and (not (++git-ignore-p (f-join dir path)))
+         (funcall fn path dir ignored-directories)))
+  (advice-add 'lsp--path-is-watchable-directory
+              :around #'++lsp--path-is-watchable-directory-a)
+
+  ;; MISC
+  (setq scroll-margin 10)
 )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(yaml-mode esh-help eshell-prompt-extras eshell-z multi-term multi-vterm xref shell-pop terminal-here vterm xterm-color yasnippet-snippets ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lsp-ui lsp-origami lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-lsp helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc git-gutter-fringe fuzzy flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word dap-mode company-go column-enforce-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
