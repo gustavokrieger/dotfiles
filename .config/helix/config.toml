@@ -1,0 +1,74 @@
+[editor]
+scrolloff = 0
+scroll-lines = 2
+line-number = "relative"
+idle-timeout = 0
+rulers = [101]
+bufferline = "always"
+
+[editor.cursor-shape]
+insert = "bar"
+select = "underline"
+
+[editor.file-picker]
+git-exclude = false
+
+[editor.gutters.line-numbers]
+min-width = 15
+
+[editor.soft-wrap]
+enable = true
+
+# Key remapping normal
+
+[keys.normal]
+j = "move_line_down"
+k = "move_line_up"
+"tab" = "select_textobject_inner"
+"S-tab" = "select_textobject_around"
+
+[keys.normal.z]
+j = ["scroll_down", "scroll_down", "scroll_down", "scroll_down"]
+k = ["scroll_up", "scroll_up", "scroll_up", "scroll_up"]
+
+[keys.normal.Z]
+j = ["scroll_down", "scroll_down"]
+k = ["scroll_up", "scroll_up"]
+
+[keys.normal.g]
+j = "move_visual_line_down"
+k = "move_visual_line_up"
+
+[keys.normal.m]
+a = "no_op"
+i = "no_op"
+
+[keys.normal.space]
+F = "file_picker_in_current_buffer_directory"
+
+# Key remapping select
+
+[keys.select]
+j = "extend_line_down"
+k = "extend_line_up"
+"tab" = "select_textobject_inner"
+"S-tab" = "select_textobject_around"
+
+[keys.select.z]
+j = ["scroll_down", "scroll_down", "scroll_down", "scroll_down"]
+k = ["scroll_up", "scroll_up", "scroll_up", "scroll_up"]
+
+[keys.select.Z]
+j = ["scroll_down", "scroll_down"]
+k = ["scroll_up", "scroll_up"]
+
+[keys.select.g]
+j = "extend_visual_line_down"
+k = "extend_visual_line_up"
+
+[keys.select.m]
+a = "no_op"
+i = "no_op"
+
+[keys.select.space]
+F = "file_picker_in_current_buffer_directory"
