@@ -1,0 +1,59 @@
+[
+    // --- vim ---
+    {
+        "command": "vscode-neovim.send",
+        "key": "ctrl+space",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<C-Space>"
+    },
+    // --- HELIX ---
+    // {
+    //     "command": "vscode-neovim.send",
+    //     "key": "alt+d",
+    //     "when": "editorTextFocus && neovim.mode != insert",
+    //     "args": "<A-d>"
+    // },
+    // {
+    //     "command": "vscode-neovim.send",
+    //     "key": "alt+c",
+    //     "when": "editorTextFocus && neovim.mode != insert",
+    //     "args": "<A-c>"
+    // },
+    // {
+    //     "command": "vscode-neovim.send",
+    //     "key": "ctrl+c",
+    //     "when": "editorTextFocus && neovim.mode != insert",
+    //     "args": "<C-c>"
+    // },
+    // {
+    //     "command": "vscode-neovim.send",
+    //     "key": "alt+o",
+    //     "when": "editorTextFocus && neovim.mode != insert",
+    //     "args": "<A-o>"
+    // },
+    // {
+    //     "command": "vscode-neovim.send",
+    //     "key": "alt+i",
+    //     "when": "editorTextFocus && neovim.mode != insert",
+    //     "args": "<A-i>"
+    // },
+    // --- vim ---
+    // {
+    //     "key": "ctrl+x",
+    //     "command": "editor.action.triggerSuggest",
+    //     "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
+    // },
+    {
+        "key": "ctrl+shift+1",
+        "command": "workbench.action.togglePanel"
+    },
+    {
+        "key": "ctrl+shift+2",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
+    },
+    {
+        "key": "ctrl+shift+m",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+]
