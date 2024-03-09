@@ -1,0 +1,38 @@
+{
+    // Languages
+    "gopls": {
+        "ui.semanticTokens": true
+    },
+    "zig.initialSetupDone": true,
+    "zig.path": "zig",
+    "zig.zls.path": "zls",
+    "zig.zls.semanticTokens": "full",
+    // General
+    "debug.toolBarLocation": "docked",
+    "editor.cursorSurroundingLines": 4,
+    "editor.folding": false,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontSize": 14.643,
+    "editor.formatOnSave": true,
+    "editor.gotoLocation.alternativeDefinitionCommand": "",
+    "editor.gotoLocation.alternativeReferenceCommand": "editor.action.revealDefinition",
+    "editor.gotoLocation.alternativeTypeDefinitionCommand": "",
+    "editor.inlayHints.enabled": "off",
+    "editor.lineHeight": 1.4,
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+    "editor.smoothScrolling": true,
+    "editor.stickyScroll.enabled": true,
+    "explorer.excludeGitIgnore": true,
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "files.insertFinalNewline": true,
+    "search.useParentIgnoreFiles": true,
+    "telemetry.telemetryLevel": "off",
+    "terminal.integrated.enablePersistentSessions": false,
+    "workbench.colorTheme": "GitHub Light Default",
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.wordWrap": "on",
+    "extensions.autoUpdate": false,
+}
