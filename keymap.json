@@ -1,0 +1,46 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-/": "terminal_panel::Toggle",
+    },
+  },
+  {
+    "context": "DebugPanel",
+    "bindings": {
+      "space d u": "workspace::ToggleBottomDock",
+    },
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "L": "pane::ActivateNextItem",
+      "H": "pane::ActivatePreviousItem",
+      // leader
+      "space space": "file_finder::Toggle",
+      "space /": "workspace::NewSearch",
+      "space e": "vim::ToggleProjectPanelFocus",
+      "space E": "pane::RevealInProjectPanel",
+      // debug
+      "space d b": "editor::ToggleBreakpoint",
+      "space d l": "debugger::Rerun",
+      "space d u": "debug_panel::ToggleFocus",
+      // search
+      "space s s": "outline::Toggle",
+      "space s S": "project_symbols::Toggle",
+    },
+  },
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "shift-y": ["workspace::SendKeystrokes", "y $"],
+    },
+  },
+  {
+    "context": "vim_mode == normal || vim_mode == visual",
+    "bindings": {
+      "s": "vim::PushSneak",
+      "shift-s": "vim::PushSneakBackward",
+    },
+  },
+]
